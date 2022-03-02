@@ -4,6 +4,7 @@ const app = express();
 const jwt = require('jsonwebtoken')
 
 const userRoutes =require('./routers/user')
+const reservationRoutes =require('./routers/reservation')
 
 const multiParty =require('connect-multiparty')
 
@@ -19,6 +20,7 @@ PORT = process.env.PORT || 3000;
 
 
 app.use('/api/users',userRoutes)
+app.use('/api/reservation',reservationRoutes)
 
 app.listen(PORT, () => {
     console.log(`listing on http://127.0.0.1:${process.env.PORT}`)

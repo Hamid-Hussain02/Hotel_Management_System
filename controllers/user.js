@@ -1,5 +1,4 @@
 const usersModel = require("../models").User;
-// const teamModel = require("../models").Team;
 
 const jwt = require('jsonwebtoken')
 
