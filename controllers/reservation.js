@@ -1,12 +1,7 @@
 const reservationModel = require("../models").Reservation;
 
 
-
-
-
-
- //return all users with bank account details
- // one to one relation
+ //return all reservations
 const getReservations = async (req, res) => {
   try{
 
@@ -20,11 +15,24 @@ const getReservations = async (req, res) => {
   }
 };
 
+const createReservation = async (req, res) => {
+    try{
+        const {user_id,room_id,bill_id}=req.body
+    let reservation = new reservationModel({user_id,room_id,bill_id});
+    await reservation.save();
+    res.status(201).send(reservation);
+    }
+    catch (error) { 
+      res.status(400).json({error: error.toString()});
+    }
+  };
+
 
 
 
   
 
 module.exports = {
-    getReservations
+    getReservations,
+    createReservation
 };

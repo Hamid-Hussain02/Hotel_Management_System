@@ -1,4 +1,5 @@
 const usersModel = require("../models").User;
+const reservationModel = require("../models").Reservation;
 
 const jwt = require('jsonwebtoken')
 
@@ -11,7 +12,9 @@ const jwt = require('jsonwebtoken')
 const getUsers = async (req, res) => {
   try{
     //   let users =await usersModel.findByPk(req.body.id)
-  let users = await usersModel.findAll();
+  let users = await usersModel.findAll({include: [{
+    model: reservationModel,
+  }]});
 // console.log(users)
   
   res.status(200).send(users);
