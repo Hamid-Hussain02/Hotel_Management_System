@@ -1,5 +1,5 @@
-const hotelsModel = require("../models").Hotel;
 const roomsModel = require("../models").Room;
+const reservationModel = require("../models").Reservation;
 
 
 
@@ -7,13 +7,11 @@ const roomsModel = require("../models").Room;
 
 
  //return all hotel along with rooms and reservation status
-const getAllHotels = async (req, res) => {
+const getAllRooms = async (req, res) => {
   try{
-  let hotels = await hotelsModel.findAll({include: [{
-    model: roomsModel,
-  }]});
+  let rooms = await roomsModel.findAll();
   
-  res.status(200).send(hotels);
+  res.status(200).send(rooms);
   }
   catch (error) { 
     res.status(400).json({error: error.toString()});
@@ -22,5 +20,5 @@ const getAllHotels = async (req, res) => {
 
 
 module.exports = {
-    getAllHotels
+    getAllRooms
 };

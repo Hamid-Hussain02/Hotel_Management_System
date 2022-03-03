@@ -1,6 +1,4 @@
 const Joi = require('joi');
-// const UserModel = require('../models').User;
-// const LibraryModel = require('../models').Library;
 
 
 const validateUserLogin = (req, res, next) => {

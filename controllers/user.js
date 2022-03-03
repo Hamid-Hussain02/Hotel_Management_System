@@ -1,10 +1,8 @@
 const usersModel = require("../models").User;
 const reservationModel = require("../models").Reservation;
+const billModel = require("../models").Bill;
 
 const jwt = require('jsonwebtoken')
-
-
-
 
 
  //return all users with bank account details
@@ -14,6 +12,8 @@ const getUsers = async (req, res) => {
     //   let users =await usersModel.findByPk(req.body.id)
   let users = await usersModel.findAll({include: [{
     model: reservationModel,
+    include:[billModel]
+
   }]});
 // console.log(users)
   
@@ -27,7 +27,6 @@ const getUsers = async (req, res) => {
 
 const addUser = async (req, res) => {
     try{
-        console.log("req",req.body)
         const {name,email,password,contact,role}=req.body
     let userSave = new usersModel({name,email,password,contact,role,
         createAt:Date.now(),updatedAt:Date.now()});
@@ -44,6 +43,23 @@ const addUser = async (req, res) => {
         res.json({token:token})
     })
 }
+
+const makeReservation = async (req, res) => {
+    try{
+     let user =await usersModel.findByPk(req.body.id)
+       let reservation = await Reservation.findByPk(req.body.reservation_id)
+    // let users = await usersModel.findAll();
+//   user.addReservation(reservation)
+  const {user_id,room_id,bill_id}=req.body
+  reservationModel.create(user_id,room_id,bill_id)
+  console.log(user,reservation)
+    
+    res.status(200).send("user added in team successfully");
+    } 
+    catch (error) { 
+      res.status(400).json({error: error.toString()});
+    }
+  };
 
   const updateUser = async (req, res) => {
     try{
@@ -84,5 +100,6 @@ module.exports = {
     addUser,
     updateUser,
     deleteUser,
-    login
+    login,
+    makeReservation
 };

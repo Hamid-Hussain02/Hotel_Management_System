@@ -1,14 +1,14 @@
 const express = require("express");
 // const userMiddleware = require('../middlewares/user')
 const router = express.Router();
-const hotelsController = require("../controllers/hotel");
+const roomsController = require("../controllers/room");
 
 
 const authenticateToken = require('../middlewares/authenticateToken')
 
 
 
-router.get("/", [authenticateToken.verifyToken],hotelsController.getAllHotels)
+router.get("/", roomsController.getAllRooms)
 
 
 module.exports = router;
