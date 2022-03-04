@@ -2,12 +2,17 @@ const reservationModel = require("../models").Reservation;
 const billModel = require("../models").Bill;
 
 
- //return all reservations
+/*
+     This controller is responsible for returning
+     all reservation.
+*/
 const getReservations = async (req, res) => {
   try{
 
     //   let users =await usersModel.findByPk(req.body.id)
-  let reservations = await reservationModel.findAll();
+  let reservations = await reservationModel.findAll({include: 
+    {model: billModel}
+  });
   
   res.status(200).send(reservations);
   }
@@ -16,6 +21,10 @@ const getReservations = async (req, res) => {
   }
 };
 
+/*
+     This controller is responsible for creating
+     new reservation for a user.
+*/
 const createReservation = async (req, res) => {
     try{
         const {user_id,room_id,bill_id}=req.body
@@ -30,7 +39,10 @@ const createReservation = async (req, res) => {
     }
   };
 
-
+/*
+     This controller is responsible for making
+     new reservation for a user.
+*/
   const makeReservation = async (req, res) => {
     try{
 
@@ -52,6 +64,10 @@ const createReservation = async (req, res) => {
     }
   };
 
+  /*
+     This controller is responsible for getting
+     reservations for a perticular user.
+*/
   const getUserReservation = async (req, res) => {
     try{
 

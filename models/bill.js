@@ -17,9 +17,27 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Bill.init({
-    customer_id: DataTypes.INTEGER,
-    reservation_id: DataTypes.INTEGER,
-    amount: DataTypes.INTEGER
+    customer_id: {
+      type:DataTypes.INTEGER,
+    validate:{
+      min:1,
+      max:10
+    }
+  },
+    reservation_id:{
+      type:DataTypes.INTEGER,
+    validate:{
+      min:1,
+      max:10
+    }
+  },
+    amount: {
+      type:DataTypes.INTEGER,
+    validate:{
+      min:1,
+      max:10
+    }
+  },
   }, {
     sequelize,
     modelName: 'Bill',

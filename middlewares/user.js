@@ -1,6 +1,10 @@
 const Joi = require('joi');
 
 
+/*
+     This middleware is responsible for validating
+     user login request.
+*/
 const validateUserLogin = (req, res, next) => {
     try{
         const schema = Joi.object().keys({
@@ -25,7 +29,8 @@ const validateUserCreate = (req, res, next) => {
           name: Joi.string().regex(/^[a-zA-Z ]*$/).min(3).max(30).required(),
           email: Joi.string().email().required(),
           password: Joi.string().min(5).max(30).required(),
-          role: Joi.string().required()
+          role: Joi.string().required(),
+          contact: Joi.string().required()
         });
         const result = schema.validate(req.body); 
         if(result.error == null)  //means valid
@@ -49,7 +54,7 @@ const validateUserUpdate = (req, res, next) => {
           role: Joi.number().required()
         });
         const result = schema.validate(req.body); 
-        if(result.error == null)  //means valid
+        if(result.error == null)  
           next();
         else
           return res.status(400).json({
@@ -63,8 +68,7 @@ const validateUserUpdate = (req, res, next) => {
   const validateUserDelete = (req, res, next) => {
     try{
         const schema = Joi.object().keys({
-          user_id: Joi.number().required(),
-          library_id: Joi.number().required()
+          user_id: Joi.number().required()
         });
         const result = schema.validate(req.body); 
         if(result.error == null)  //means valid

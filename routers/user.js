@@ -2,11 +2,8 @@ const express = require("express");
 const userMiddleware = require('../middlewares/user')
 const router = express.Router();
 const usersController = require("../controllers/user");
-// const email = require("../jobs/email");
-// const event = require("../events/event");
-
-
 const authenticateToken = require('../middlewares/authenticateToken')
+const adminMiddleware = require('../middlewares/admin')
 
 
 /**
@@ -23,7 +20,7 @@ const authenticateToken = require('../middlewares/authenticateToken')
  *         - contact
  *       properties:
  *          id:
- *           type: string
+ *           type: Integer
  *           description: The auto-generated id of the user
  *          name:
  *           type: string
@@ -42,9 +39,9 @@ const authenticateToken = require('../middlewares/authenticateToken')
  *           description: User phone number
  *       example:
  *         name: Rickey
- *         mail: ponting@gmail.com
- *         password: 1234567ABC!
- *         role: Student
+ *         email: ponting@gmail.com
+ *         password: 123456
+ *         role: user
  *         contact: +108 763567532
  */
 
@@ -67,28 +64,78 @@ const authenticateToken = require('../middlewares/authenticateToken')
  *         content:
  *           application/json:
  *             schema:
- *               type: array
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
 
 router.get("/",[authenticateToken.verifyToken], usersController.getUsers);
+/**
+ * @swagger
+ * /api/user/login:
+ *   post:
+ *     summary: Remove the user by id
+ *     tags: [Users]
+ *     requestBody:
+ *       content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'  
+ *     responses:
+ *       200:
+ *         description: The user was deleted
+ *       400:
+ *         description: The user was not found
+ */
 router.post("/login",[userMiddleware.validateUserLogin],usersController.login);
+/**
+ * @swagger
+ * /api/user/create:
+ *   post:
+ *     summary: Remove the user by id
+ *     tags: [Users]
+ *     requestBody:
+ *       content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'  
+ *     responses:
+ *       200:
+ *         description: The user was deleted
+ *       400:
+ *         description: The user was not found
+ */
 router.post("/create",[authenticateToken.verifyToken,userMiddleware.validateUserCreate],usersController.addUser)
-router.post("/update", [userMiddleware.validateUserUpdate],usersController.updateUser);
+/**
+ * @swagger
+ * /api/user/update:
+ *   patch:
+ *     summary: Remove the user by id
+ *     tags: [Users]
+ *     requestBody:
+ *       content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'  
+ *     responses:
+ *       200:
+ *         description: The user was deleted
+ *       400:
+ *         description: The user was not found
+ */
+router.patch("/update", [userMiddleware.validateUserUpdate],usersController.updateUser);
 /**
  * @swagger
  * /api/user/delete:
  *   delete:
  *     summary: Remove the user by id
  *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: integer
- *         required: true
- *         description: The user id
+ *     requestBody:
+ *       content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
  *
  *     responses:
  *       200:
@@ -96,10 +143,8 @@ router.post("/update", [userMiddleware.validateUserUpdate],usersController.updat
  *       404:
  *         description: The user was not found
  */
-router.post("/delete", [userMiddleware.validateUserDelete],usersController.deleteUser);
+router.delete("/delete", usersController.deleteUser);
 
-// router.post("/sendemail", email.scheduleEmail);
-// router.post("/sendEvent", event.registerEvent);
 
 
 module.exports = router;

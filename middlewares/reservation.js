@@ -1,5 +1,10 @@
 const Joi = require('joi');
 
+
+/*
+     This middleware is responsible for validation
+     every reservation being booked.
+*/
 const validateReservationCreate = (req, res, next) => {
     try{
         const schema = Joi.object().keys({

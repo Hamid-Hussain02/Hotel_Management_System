@@ -6,7 +6,10 @@ const reservationModel = require("../models").Reservation;
 
 
 
- //return all hotel along with rooms and reservation status
+ /*
+     This controller is responsible for returning all the 
+     available rooms along with their booking status
+*/
 const getAllRooms = async (req, res) => {
   try{
   let rooms = await roomsModel.findAll();

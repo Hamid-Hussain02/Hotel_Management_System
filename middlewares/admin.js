@@ -1,9 +1,11 @@
 const Joi = require('joi');
-// const UserModel = require('../models').User;
-// const LibraryModel = require('../models').Library;
 const usersModel = require("../models").User;
 
 
+/*
+     This controller is responbile for vaidating
+     either the requested user is admin or not.
+*/
 const validateAdmin = async (req, res, next) => {
     try{
         let user =await usersModel.findByPk(req.body.user_id)

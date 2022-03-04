@@ -1,3 +1,6 @@
+const bcrypt = require('bcrypt');
+
+
 'use strict';
 const {
   Model
@@ -20,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     name: { 
       type: DataTypes.STRING,
       validate:{
+        is: ["^[a-zA-Z ]*$",'i'],
         len:[2-40]
       }
     },
@@ -31,22 +35,33 @@ module.exports = (sequelize, DataTypes) => {
     },
     email:{ 
       type:DataTypes.STRING,
-      unique:true,
-    validate:{
-      isEmail:true
-    },
-    password:{
-      type:DataTypes.STRING,
-      allowNull:false,
+      allowNull: false,
+      unique: true,
       validate:{
-        len:[6-20]
+          isEmail: true,
+          notNull: true,
+          notEmpty: true,
+          min: 2,
+          max: 30
       },
-      // set(value) {   //setter
-      //   // Storing passwords in plaintext in the database is terrible.
-      //   // Hashing the value with an appropriate cryptographic hash function is better.
-      //   this.setDataValue('password', bcrypt.hashSync(value, 10));
-      // }
-    }
+      set(value) {   
+        this.setDataValue('email', value.toLowerCase());
+      },
+    password: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      validate: {
+          notNull: true,
+          notEmpty: true,
+          min: 5,
+          max: 200
+      },
+      set(value) {   //setter
+        // Storing passwords in plaintext in the database is terrible.
+        // Hashing the value with an appropriate cryptographic hash function is better.
+        this.setDataValue('password', bcrypt.hashSync(value, 10));
+      }
+    },
   },
     role: DataTypes.STRING
   }, {

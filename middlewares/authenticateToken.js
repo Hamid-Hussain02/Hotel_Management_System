@@ -1,4 +1,8 @@
-// const jwt = require('jsonwebtoken')
+
+/*
+     This middleware is responsbile for authentication
+     every request using JWT token
+*/
 
 function verifyToken(req,res,next){
     const bearerHeader = req.headers['authorization'];

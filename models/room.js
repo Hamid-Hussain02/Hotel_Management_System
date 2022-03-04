@@ -23,7 +23,13 @@ module.exports = (sequelize, DataTypes) => {
       max:10
     }
   },
-    customer_id: DataTypes.INTEGER,
+    customer_id: {
+      type:DataTypes.INTEGER,
+    validate:{
+      min:1,
+      max:10
+    }
+  },
     booking_status: DataTypes.BOOLEAN
   }, {
     sequelize,
