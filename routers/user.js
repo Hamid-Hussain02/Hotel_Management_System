@@ -68,7 +68,7 @@ const adminMiddleware = require('../middlewares/admin')
  *                 $ref: '#/components/schemas/User'
  */
 
-router.get("/",[authenticateToken.verifyToken], usersController.getUsers);
+router.get("/",[authenticateToken.verifyToken,adminMiddleware.validateAdmin], usersController.getUsers);
 /**
  * @swagger
  * /api/user/login:
@@ -104,7 +104,7 @@ router.post("/login",[userMiddleware.validateUserLogin],usersController.login);
  *       400:
  *         description: The user was not found
  */
-router.post("/create",[authenticateToken.verifyToken,userMiddleware.validateUserCreate],usersController.addUser)
+router.post("/create",[authenticateToken.verifyToken,userMiddleware.validateUserCreate,adminMiddleware.validateAdmin],usersController.addUser)
 /**
  * @swagger
  * /api/user/update:
@@ -122,7 +122,7 @@ router.post("/create",[authenticateToken.verifyToken,userMiddleware.validateUser
  *       400:
  *         description: The user was not found
  */
-router.patch("/update", [userMiddleware.validateUserUpdate],usersController.updateUser);
+router.patch("/update", [userMiddleware.validateUserUpdate,adminMiddleware.validateAdmin],usersController.updateUser);
 /**
  * @swagger
  * /api/user/delete:
